@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from .models import Topic
-from .forms import TopicForm
+from .forms import TopicForm, EntryForm
 
 def index(request): # request як http запит (типу URL адреса в браузері)
     """The home page for Learning Log."""
@@ -35,3 +35,23 @@ def new_topic(request):
     # Display a blank or invalid form.
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
+
+def new_entry(request, topic_id):
+    """Add a new entry for a particular topic."""
+    topic = Topic.objects.get(id=topic_id)
+
+    if request.method != 'POST':
+        # No data submitted; create a blank form.
+        form = EntryForm()
+    else:
+        # POST data submitted; process data.
+        form = EntryForm(data=request.POST)
+        if form.is_valid():
+            new_entry = form.save(commit=False) # commit=false не записує об'єкт в базу даних
+            new_entry.topic = topic # зберегти запис на тему яку ми витягли з БД (на початку функції)
+            new_entry.save() # тут воно вже зберігає з правильно темою
+            return redirect('learning_logs:topic', topic_id=topic_id)
+        
+    # Display a blank or invalid form.
+    context = {'topic': topic, 'form': form}
+    return render(request, 'learning_logs/new_entry.html', context)
