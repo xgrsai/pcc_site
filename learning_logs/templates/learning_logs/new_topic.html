@@ -1,0 +1,10 @@
+{% extends "learning_logs/base.html" %} {% block content %}
+<p>Add a new topic:</p>
+
+<form action="{% url 'learning_logs:new_topic' %}" method="post">
+  {% csrf_token %} <!--токен CSRF, який додається до кожної форми, що дозволяє серверу перевіряти, чи запит дійсно надійшов з авторизованого джерела (тобто з вашого веб-сайту, а не з якогось іншого, створеного зловмисником).-->
+  {{ form.as_div }} <!--автоматично обгортає в div-->
+  <button name="submit">Add topic</button>
+</form>
+
+{% endblock content %}
