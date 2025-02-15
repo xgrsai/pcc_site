@@ -16,8 +16,9 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('', include('learning_logs.urls')), # перший аргумент пустий, бо це буде основною сторнікою | другий  аргумент включає параметри маршрутизації з learning_logs/urls.py
 ]
