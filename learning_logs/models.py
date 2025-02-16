@@ -1,10 +1,12 @@
 from django.db import models # модель - в БД це таблиця
+from django.contrib.auth.models import User
 
 class Topic(models.Model):
     """A topic the user is learning about."""
     text = models.CharField(max_length=200)#1
     date_added = models.DateTimeField(auto_now_add=True)#2
-    
+    owner = models.ForeignKey(User, on_delete=models.CASCADE) # зовнішній ключ на користувача (власника теми)
+
     def __str__(self): # для того щоб я міг прочитати, бо без цього виведе <Topic: Topic object (1)> 
         """Return a string representation of the model."""
         return self.text
