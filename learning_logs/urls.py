@@ -13,4 +13,6 @@ urlpatterns = [
     path('new_topic/', views.new_topic, name='new_topic'), # третій аргумент дозоляє зручноо посилатися на цей шлях в інших частинах проекту (зверхку написано -_-)
     # Page for adding a new entry.
     path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'), # <int:topic_id> - щоб знати куди записуємо
+    # Page for editing an entry.
+    path('edit_entry/<int:entry_id>/', views.edit_entry, name='edit_entry'),
 ]
